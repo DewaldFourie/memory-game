@@ -7,14 +7,40 @@
 
 .card-container {
   display: grid;
-  grid-template-columns: repeat(6, 1fr); /* 6 columns with equal width */
-  grid-template-rows: repeat(2, auto); /* 2 rows with auto sizing */
+  grid-template-columns: repeat(6, 1fr); /* Six columns on larger screens */
+  grid-template-rows: auto; /* Automatically sized rows */
   gap: 1rem;
   padding: 4rem;
 }
+
 
 .card-image {
   width: 12rem;
   height: 12rem;
   margin: 0;
 }
+
+.game-results {
+  width: 400px;
+  height: 200px;
+  background-color: black;
+}
+
+/* Media query for smaller screens (e.g., tablets) */
+@media (max-width: 1024px) {
+  .card-container {
+      grid-template-columns: repeat(3, minmax(150px, 1fr)); /* Create new rows as needed */
+  }
+}
+
+/* Media query for mobile screens */
+@media (max-width: 768px) {
+  .card-container {
+      grid-template-columns: repeat(2, 1fr); /* Two columns on mobile screens */
+  }
+}
+
+
+
+
+
