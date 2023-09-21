@@ -164,6 +164,20 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: space-between;
+}
+
+.load-div {
+  min-height: 34.5rem;
+  min-width: 50rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.load-icon {
+  height: 2.5rem;
+  width: 2.5rem;
 }
 
 .card-container {

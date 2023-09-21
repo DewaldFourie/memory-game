@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useState, useEffect } from "react";
 import Card from "./Card";
+import loading from "../assets/loading.gif"
 
 const Game = ({ theme }) => {
     const [uniqueCards, setUniqueCards] = useState([]); // to store unique card images
@@ -26,12 +27,16 @@ const Game = ({ theme }) => {
         apiUrl = fishingApi
     }
 
+    const generateCacheBuster = () => {
+        return `cache=${Math.random()}`;
+    };
 
     // Function to fetch unique card images from the API
     const fetchUniqueCards = async () => {
         try {
-            
-            const response = await fetch(apiUrl);
+            const cacheBuster = generateCacheBuster();
+            const apiUrlWithCacheBuster = `${apiUrl}&${cacheBuster}`;
+            const response = await fetch(apiUrlWithCacheBuster);
             const data = await response.json();
             const cardImages = data.data.map((data) => data.images.original.url);
             
@@ -139,7 +144,7 @@ const Game = ({ theme }) => {
             </div>
             <div className="grid-container">
                 {isLoading ? (  
-                    <div>LOADING...</div>
+                    <div className="load-div"><img className="load-icon" src={loading} alt="LOADING..." /></div>
                 ) : (
                     <div className="card-container">
                         {uniqueCards.map((image, index) => (
