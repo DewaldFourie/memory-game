@@ -1,16 +1,35 @@
+/* eslint-disable react/prop-types */
 import { useState, useEffect } from "react";
 import Card from "./Card";
 
-const Game = () => {
+const Game = ({ theme }) => {
     const [uniqueCards, setUniqueCards] = useState([]); // to store unique card images
     const [selected, setSelected] = useState([]); // store selected images
     const [score, setScore] = useState(0);
+    const [highScore, setHighScore] = useState(0);
+    const [isLoading, setIsLoading] = useState(true);
     const [gameOver, setGameOver] = useState(false);
+    const spaceApi = "https://api.giphy.com/v1/gifs/search?api_key=Vc1Ljk0gfVQnKl1LE4qhogxyFMKZc6LN&q=space&limit=12&offset=5&rating=g&lang=en&bundle=messaging_non_clips"
+    const golfApi = "https://api.giphy.com/v1/gifs/search?api_key=Vc1Ljk0gfVQnKl1LE4qhogxyFMKZc6LN&q=golf&limit=12&offset=2&rating=g&lang=en&bundle=messaging_non_clips"
+    const fishingApi = "https://api.giphy.com/v1/gifs/search?api_key=Vc1Ljk0gfVQnKl1LE4qhogxyFMKZc6LN&q=fishing&limit=12&offset=2&rating=g&lang=en&bundle=messaging_non_clips"
+
+    let apiUrl = ""
+    if ( theme === 'space'){
+        apiUrl = spaceApi
+    }
+    else if (theme === 'golf') {
+        apiUrl = golfApi
+    }
+    else if (theme === 'fishing') {
+        apiUrl = fishingApi
+    }
+
 
     // Function to fetch unique card images from the API
     const fetchUniqueCards = async () => {
         try {
-            const response = await fetch("https://api.giphy.com/v1/gifs/search?api_key=Vc1Ljk0gfVQnKl1LE4qhogxyFMKZc6LN&q=golf&limit=12&offset=2&rating=pg&lang=en&bundle=messaging_non_clips");
+            
+            const response = await fetch(apiUrl);
             const data = await response.json();
             const cardImages = data.data.map((data) => data.images.original.url);
             
@@ -19,9 +38,11 @@ const Game = () => {
 
             // Set the unique cards state with shuffled cards
             setUniqueCards(shuffledCards);
+            setIsLoading(false);
         } catch (error) {
             console.error("Error fetching data from Giphy API:", error);
             setUniqueCards([]);
+            setIsLoading(false);
         }
     };
 
@@ -39,7 +60,7 @@ const Game = () => {
         // Fetch unique cards when the component mounts
         fetchUniqueCards();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [theme]);
 
     useEffect(() => {
         console.log(score);
@@ -49,7 +70,9 @@ const Game = () => {
         if (selected.includes(image)) {
             setGameOver(true)
             // Game over, reset selected and score
-
+            if (score > highScore) {
+                setHighScore(score)
+            }
         } else {
             // Continue the game
             setSelected([...selected, image]);
@@ -60,17 +83,45 @@ const Game = () => {
         const shuffledUniqueCards = shuffleArray([...uniqueCards]);
         setUniqueCards(shuffledUniqueCards);
     };
+
+    const handleRestartClick = () => {
+        // Reset all game states
+        setUniqueCards([]);
+        setSelected([]);
+        setScore(0);
+        setIsLoading(true);
+        setGameOver(false);
+
+        // Fetch new unique cards
+        fetchUniqueCards();
+    };
     
     return (
         <div className="game">
-            <h1>Memory Game</h1>
-            <p>{gameOver ? (`GAME OVER , SCORE: ${score}`) : (`Score: ${score}`)}</p>
-            <div className="grid-container">
-                <div className="card-container">
-                    {uniqueCards.map((image, index) => (
-                        <Card key={index} image={image} onClick={gameOver ? () => {} : handleCardClick} />
-                    ))}
+            <div>{gameOver ? (
+                <div>
+                    <p>Game Over, Score {score}</p>
+                    <p>High Score: {highScore}</p>
+                    <button onClick={handleRestartClick}>PLAY AGAIN</button>
                 </div>
+                ) : (
+                    <div>
+                        <p>Score: {score}</p>
+                        <p>High Score: {highScore}</p>
+                    </div>
+                )}
+            </div>
+            <div className="grid-container">
+                {isLoading ? (  
+                    <div>LOADING...</div>
+                ) : (
+                    <div className="card-container">
+                        {uniqueCards.map((image, index) => (
+                            <Card key={index} image={image} onClick={gameOver ? () => {} : handleCardClick} />
+                        ))}
+                    </div>
+                ) 
+                }
             </div>
         </div>
     );
