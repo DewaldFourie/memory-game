@@ -8,16 +8,24 @@ const IntroScreen = ({ onSelectTheme }) => {
         <div className="intro-screen">
             <div className="theme-container">
                 <div className="instructions-div">
-                    <p>Select a theme:</p>
+                    <h2>SELECT A THEME</h2>
                 </div>
                 <div className="theme-btns-div">
-                    <button onClick={() => onSelectTheme('space')}><img className="theme-icon" src={space}></img></button>
-                    <button onClick={() => onSelectTheme('golf')}><img className="theme-icon" src={golf}></img></button>
-                    <button onClick={() => onSelectTheme('fishing')}><img className="theme-icon" src={fishing}></img></button>
+                    <div className="theme-div">
+                        <button onClick={() => onSelectTheme('space')}><img className="theme-icon" src={space}></img></button>
+                        <h3>SPACE</h3>
+                    </div>
+                    <div className="theme-div">
+                        <button onClick={() => onSelectTheme('fishing')}><img className="theme-icon" src={fishing}></img></button>
+                        <h3>FISHING</h3>
+                    </div>
+                    <div className="theme-div">
+                        <button onClick={() => onSelectTheme('golf')}><img className="theme-icon" src={golf}></img></button>
+                        <h3>GOLF</h3>
+                    </div>
                 </div>
             </div>
         </div>
-
     );
 };
 

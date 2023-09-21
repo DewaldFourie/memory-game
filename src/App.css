@@ -28,19 +28,90 @@ body {
 }
 
 .logo {
-  width: 10rem;
+  width: 7rem;
   margin-left: 3rem;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.change-theme-div {
-  width: 10rem;
-  margin-right: 3rem;
+
+.info-container {
+  position: relative;
+  display: inline-block; /* Ensures proper layout of the tooltip */
+  width: 4rem;
+}
+
+.info-gif {
+  border-radius: 50%;
+  height: 2rem;
+  width: 2rem;
+  transition: transform 0.4s ease-in; 
+}
+
+.tooltip {
+  opacity: 0; /* Initially hide the tooltip */
+  transition: opacity 0.4s ease-in; /* Add transition to ease the opacity */
+  position: absolute;
+  top: 100%; /* Position below the info-gif */
+  left: 50%;
+  transform: translateX(-50%) scale(0); /* Scale down to 0 initially */
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  font-size: 15px;
+  width: 22rem;
+  height: 10rem;
+  border-radius: 5px;
+  white-space: nowrap;
+  z-index: 1;
+  margin-left: 10rem;
+  pointer-events: none; /* Make the tooltip non-interactable */
+}
+
+.tooltip-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.tooltip-content {
+  font-size: 11px;
+  display: flex;
   align-items: center;
   justify-content: center;
 }
+
+.info-container:hover .tooltip {
+  opacity: 1; /* Show the tooltip by changing opacity */
+  transform: translateX(-50%) scale(1); /* Scale to full size */
+  pointer-events: auto; /* Make the tooltip interactable on hover */
+}
+
+
+.change-theme-div {
+  width: 7rem;
+  margin-right: 3rem;
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  justify-content: center;
+}
+
+#theme-label {
+  margin: 0.1rem;
+  font-size: 10px;
+}
+
+#theme-select {
+  margin: 0;
+  background-color: aqua;
+  border: none;
+  border-radius: 8px;
+  text-align: center;
+  padding: 0.2rem;
+}
+
 
 .footer-container {
   background-color: lightskyblue;
@@ -77,6 +148,12 @@ body {
   gap: 2rem;
 }
 
+.theme-div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .theme-icon {
   height: 20rem;
   width: 20rem;
@@ -97,10 +174,26 @@ body {
   padding: 4rem;
 }
 
-.game-results {
-  width: 400px;
-  height: 200px;
-  background-color: black;
+.game-status-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.game-data-container {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.restart-button-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.game-over-text {
+  text-align: center;
 }
 
 /* CARD SECTION */

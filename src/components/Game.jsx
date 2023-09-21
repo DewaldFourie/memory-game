@@ -9,6 +9,8 @@ const Game = ({ theme }) => {
     const [highScore, setHighScore] = useState(0);
     const [isLoading, setIsLoading] = useState(true);
     const [gameOver, setGameOver] = useState(false);
+    const [gameWon, setGameWon] =useState(false);
+
     const spaceApi = "https://api.giphy.com/v1/gifs/search?api_key=Vc1Ljk0gfVQnKl1LE4qhogxyFMKZc6LN&q=space&limit=12&offset=5&rating=g&lang=en&bundle=messaging_non_clips"
     const golfApi = "https://api.giphy.com/v1/gifs/search?api_key=Vc1Ljk0gfVQnKl1LE4qhogxyFMKZc6LN&q=golf&limit=12&offset=2&rating=g&lang=en&bundle=messaging_non_clips"
     const fishingApi = "https://api.giphy.com/v1/gifs/search?api_key=Vc1Ljk0gfVQnKl1LE4qhogxyFMKZc6LN&q=fishing&limit=12&offset=2&rating=g&lang=en&bundle=messaging_non_clips"
@@ -67,6 +69,11 @@ const Game = ({ theme }) => {
     }, [score])
 
     const handleCardClick = (image) => {
+        if (gameWon) {
+            // Game is already won, do nothing
+            return;
+        }
+
         if (selected.includes(image)) {
             setGameOver(true)
             // Game over, reset selected and score
@@ -77,11 +84,16 @@ const Game = ({ theme }) => {
             // Continue the game
             setSelected([...selected, image]);
             setScore(score + 1);
+            if (score + 1 === 12) {
+                setGameWon(true)
+                setHighScore(score+ 1)
+            }
         }
     
         // Shuffle the unique cards array and update the state
-        const shuffledUniqueCards = shuffleArray([...uniqueCards]);
-        setUniqueCards(shuffledUniqueCards);
+        // const shuffledUniqueCards = shuffleArray([...uniqueCards]);
+        // setUniqueCards(shuffledUniqueCards);
+    
     };
 
     const handleRestartClick = () => {
@@ -91,6 +103,7 @@ const Game = ({ theme }) => {
         setScore(0);
         setIsLoading(true);
         setGameOver(false);
+        setGameWon(false);
 
         // Fetch new unique cards
         fetchUniqueCards();
@@ -99,15 +112,28 @@ const Game = ({ theme }) => {
     return (
         <div className="game">
             <div>{gameOver ? (
-                <div>
-                    <p>Game Over, Score {score}</p>
-                    <p>High Score: {highScore}</p>
-                    <button onClick={handleRestartClick}>PLAY AGAIN</button>
+                <div className="game-status-container">
+                    <p className="game-over-text">GAME OVER</p>
+                    <div className="game-data-container">
+                        <p>Score {score}</p>
+                        <p>High Score: {highScore}</p>
+                    </div>
+                    <div className="restart-button-container">
+                        <button onClick={handleRestartClick}>PLAY AGAIN</button>
+                    </div>
                 </div>
                 ) : (
-                    <div>
-                        <p>Score: {score}</p>
-                        <p>High Score: {highScore}</p>
+                    <div className="game-status-container">
+                        {gameWon ? (<p className="game-over-text" >YOU WIN</p>) : ("")}
+                        <div className="game-data-container">
+                            <p>Score: {score}</p>
+                            <p>High Score: {highScore}</p>
+                        </div>
+                        {gameWon ? (
+                            <div className="restart-button-container">
+                                <button onClick={handleRestartClick}>PLAY AGAIN</button>
+                            </div>
+                        ) : ("")}
                     </div>
                 )}
             </div>
