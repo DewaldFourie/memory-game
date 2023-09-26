@@ -49,7 +49,7 @@ const App = () => {
             </div>
           </div>
         </div>
-        <h1 className='header'>MEMORY GAME</h1>
+        <h1 className='header'>THE MEMORY GAME</h1>
         <div className='change-theme-div'>
           <label htmlFor="theme-select" id='theme-label' style={{ display: selectedTheme ? 'block' : 'none' }}>Change Theme</label>
           <div className='custom-select' onMouseEnter={() => document.getElementById('theme-select').click()}>

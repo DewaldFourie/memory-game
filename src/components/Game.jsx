@@ -124,48 +124,47 @@ const Game = ({ theme }) => {
     };
     
     return (
-        <div className="game">
+        <div className="game"> 
             <div className="game-status-container">
-                {gameOver ? (
-                <>
-                    <p className="game-over-text">GAME OVER</p>
-                    <div className="restart-button-container">
-                    <button onClick={handleRestartClick}>PLAY AGAIN</button>
-                    </div>
-                </>
-                ) : gameWon ? (
-                <>
-                    <p className="game-over-text">YOU WIN</p>
-                    <div className="restart-button-container">
-                    <button onClick={handleRestartClick}>PLAY AGAIN</button>
-                    </div>
-                </>
-                ) : null /* Add null here to prevent rendering duplicate game data */}
                 <div className="game-data-container">
-                <p>Score: {score}</p>
-                <p>High Score: {highScore}</p>
+                    <p className="game-data-text">Score: {score}</p>
+                    <p className="game-data-text">High Score: {highScore}</p>
                 </div>
+                {gameOver ? (
+                    <>
+                        <p className="game-over-text">GAME OVER</p>
+                        <div className="restart-button-container">
+                            <button className="play-again-btn" onClick={handleRestartClick}>PLAY AGAIN</button>
+                        </div>
+                    </>
+                ) : gameWon ? (
+                    <>
+                        <p className="game-over-text">YOU WIN</p>
+                        <div className="restart-button-container">
+                            <button className="play-again-btn" onClick={handleRestartClick}>PLAY AGAIN</button>
+                        </div>
+                    </>
+                ) : null /* Add null here to prevent rendering duplicate game data */}
             </div>
             <div className="grid-container">
                 {isLoading ? (
-                <div className="load-div">
-                    <img className="load-icon" src={loading} alt="LOADING..." />
-                </div>
+                    <div className="load-div">
+                        <img className="load-icon" src={loading} alt="LOADING..." />
+                    </div>
                 ) : (
-                <div className="card-container">
-                    {uniqueCards.map((image, index) => (
-                    <Card
-                        key={index}
-                        image={image}
-                        onClick={gameOver || gameWon ? () => {} : handleCardClick}
-                    />
-                    ))}
-                </div>
+                    <div className="card-container">
+                        {uniqueCards.map((image, index) => (
+                            <Card
+                                key={index}
+                                image={image}
+                                onClick={gameOver || gameWon ? () => {} : handleCardClick}
+                            />
+                        ))}
+                    </div>
                 )}
             </div>
         </div>
-
-    );
+    );      
 };
 
 export default Game;
