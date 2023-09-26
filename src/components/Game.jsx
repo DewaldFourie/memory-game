@@ -54,6 +54,8 @@ const Game = ({ theme }) => {
             setUniqueCards(shuffledCards);
             setIsLoading(false);
             setScore(0)
+            setGameOver(false)
+            setGameWon(false)
         } catch (error) {
             console.error("Error fetching data from Giphy API:", error);
             setUniqueCards([]);

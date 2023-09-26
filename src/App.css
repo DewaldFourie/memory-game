@@ -1,6 +1,6 @@
 
 :root {
-  --main-bg: url('./assets/mainBG.png');
+  --main-bg: url('./assets/mainBG.jpeg');
   --golf-bg: url('./assets/golfBG.jpeg');
   --fishing-bg: url('./assets/fishingBG.jpeg');
   --space-bg: url('./assets/spaceBG.jpeg');
@@ -138,6 +138,7 @@ body {
   width: 100%;
   height: 100%;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   transition: background-image 0.5s ease-in-out;
@@ -146,10 +147,16 @@ body {
 
 .theme-container {
   width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  color: white;
+}
+
+.instructions-div {
+  margin-bottom: 5rem;
 }
 
 .theme-btns-div {
@@ -166,7 +173,6 @@ body {
   flex-direction: column;
   align-items: center;
   
-  
 }
 
 .theme-div:hover {
@@ -181,8 +187,8 @@ body {
 }
 
 .theme-icon {
-  height: 15rem;
-  width: 15rem;
+  height: 14rem;
+  width: 14rem;
   background-color: transparent;
 }
 
@@ -213,6 +219,7 @@ body {
 .load-icon {
   height: 2.5rem;
   width: 2.5rem;
+  border-radius: 50%;
 }
 
 .card-container {
@@ -229,6 +236,12 @@ body {
 .game-status-container {
   display: flex;
   flex-direction: column;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  min-width: 15rem;
+  min-height: 8rem;
+  border-radius: 1rem;
+  margin-top: 1rem;
 }
 
 .game-data-container {
@@ -268,12 +281,20 @@ body {
   .card-container {
       grid-template-columns: repeat(3, minmax(150px, 1fr)); /* Create new rows as needed */
   }
+
+
 }
 
 /* Media query for mobile screens */
 @media (max-width: 768px) {
   .card-container {
       grid-template-columns: repeat(2, 1fr); /* Two columns on mobile screens */
+  }
+
+  .theme-icon {
+    height: 8rem;
+    width: 8rem;
+    background-color: transparent;
   }
 }
 
