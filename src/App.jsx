@@ -44,7 +44,7 @@ const App = () => {
                 if you are correct and chose a new card not selected yet, your score <br />
                 will update accordingly. If you choose a card that you have already  <br />
                 chosen, you lose and the game is over. Try and choose each card only <br />
-                once and you will the Memory Game!
+                once and you will win the Memory Game!
               </p>
             </div>
           </div>
