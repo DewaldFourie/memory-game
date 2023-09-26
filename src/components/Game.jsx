@@ -13,7 +13,7 @@ const Game = ({ theme }) => {
     const [gameWon, setGameWon] =useState(false);
 
     const spaceApi = "https://api.giphy.com/v1/gifs/search?api_key=Vc1Ljk0gfVQnKl1LE4qhogxyFMKZc6LN&q=space&limit=12&offset=5&rating=g&lang=en&bundle=messaging_non_clips"
-    const golfApi = "https://api.giphy.com/v1/gifs/search?api_key=Vc1Ljk0gfVQnKl1LE4qhogxyFMKZc6LN&q=golf&limit=12&offset=2&rating=g&lang=en&bundle=messaging_non_clips"
+    const golfApi = "https://api.giphy.com/v1/gifs/search?api_key=Vc1Ljk0gfVQnKl1LE4qhogxyFMKZc6LN&q=golf&limit=12&offset=0&rating=g&lang=en&bundle=messaging_non_clips"
     const fishingApi = "https://api.giphy.com/v1/gifs/search?api_key=Vc1Ljk0gfVQnKl1LE4qhogxyFMKZc6LN&q=fishing&limit=12&offset=2&rating=g&lang=en&bundle=messaging_non_clips"
 
     let apiUrl = ""
@@ -27,6 +27,13 @@ const Game = ({ theme }) => {
         apiUrl = fishingApi
     }
 
+    useEffect(() => {
+        const gameScreenElement = document.querySelector('.game');
+        if (gameScreenElement) {
+            gameScreenElement.style.backgroundImage = `var(--${theme}-bg)`;
+        }
+    }, [theme]);
+
     const generateCacheBuster = () => {
         return `cache=${Math.random()}`;
     };
@@ -38,7 +45,7 @@ const Game = ({ theme }) => {
             const apiUrlWithCacheBuster = `${apiUrl}&${cacheBuster}`;
             const response = await fetch(apiUrlWithCacheBuster);
             const data = await response.json();
-            const cardImages = data.data.map((data) => data.images.original.url);
+            const cardImages = data.data.map((data) => data.images.fixed_height.url);
             
             // Shuffle the fetched cards
             const shuffledCards = shuffleArray(cardImages);
@@ -46,6 +53,7 @@ const Game = ({ theme }) => {
             // Set the unique cards state with shuffled cards
             setUniqueCards(shuffledCards);
             setIsLoading(false);
+            setScore(0)
         } catch (error) {
             console.error("Error fetching data from Giphy API:", error);
             setUniqueCards([]);
@@ -78,7 +86,6 @@ const Game = ({ theme }) => {
             // Game is already won, do nothing
             return;
         }
-
         if (selected.includes(image)) {
             setGameOver(true)
             // Game over, reset selected and score
@@ -96,8 +103,8 @@ const Game = ({ theme }) => {
         }
     
         // Shuffle the unique cards array and update the state
-        // const shuffledUniqueCards = shuffleArray([...uniqueCards]);
-        // setUniqueCards(shuffledUniqueCards);
+        const shuffledUniqueCards = shuffleArray([...uniqueCards]);
+        setUniqueCards(shuffledUniqueCards);
     
     };
 
@@ -116,45 +123,46 @@ const Game = ({ theme }) => {
     
     return (
         <div className="game">
-            <div>{gameOver ? (
-                <div className="game-status-container">
+            <div className="game-status-container">
+                {gameOver ? (
+                <>
                     <p className="game-over-text">GAME OVER</p>
-                    <div className="game-data-container">
-                        <p>Score {score}</p>
-                        <p>High Score: {highScore}</p>
-                    </div>
                     <div className="restart-button-container">
-                        <button onClick={handleRestartClick}>PLAY AGAIN</button>
+                    <button onClick={handleRestartClick}>PLAY AGAIN</button>
                     </div>
+                </>
+                ) : gameWon ? (
+                <>
+                    <p className="game-over-text">YOU WIN</p>
+                    <div className="restart-button-container">
+                    <button onClick={handleRestartClick}>PLAY AGAIN</button>
+                    </div>
+                </>
+                ) : null /* Add null here to prevent rendering duplicate game data */}
+                <div className="game-data-container">
+                <p>Score: {score}</p>
+                <p>High Score: {highScore}</p>
                 </div>
-                ) : (
-                    <div className="game-status-container">
-                        {gameWon ? (<p className="game-over-text" >YOU WIN</p>) : ("")}
-                        <div className="game-data-container">
-                            <p>Score: {score}</p>
-                            <p>High Score: {highScore}</p>
-                        </div>
-                        {gameWon ? (
-                            <div className="restart-button-container">
-                                <button onClick={handleRestartClick}>PLAY AGAIN</button>
-                            </div>
-                        ) : ("")}
-                    </div>
-                )}
             </div>
             <div className="grid-container">
-                {isLoading ? (  
-                    <div className="load-div"><img className="load-icon" src={loading} alt="LOADING..." /></div>
+                {isLoading ? (
+                <div className="load-div">
+                    <img className="load-icon" src={loading} alt="LOADING..." />
+                </div>
                 ) : (
-                    <div className="card-container">
-                        {uniqueCards.map((image, index) => (
-                            <Card key={index} image={image} onClick={gameOver ? () => {} : handleCardClick} />
-                        ))}
-                    </div>
-                ) 
-                }
+                <div className="card-container">
+                    {uniqueCards.map((image, index) => (
+                    <Card
+                        key={index}
+                        image={image}
+                        onClick={gameOver || gameWon ? () => {} : handleCardClick}
+                    />
+                    ))}
+                </div>
+                )}
             </div>
         </div>
+
     );
 };
 
