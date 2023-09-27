@@ -37,7 +37,7 @@ const App = () => {
               onMouseEnter={handleInfoHover}
             />
             <div className='tooltip' data-tooltip="Welcome to the Memory Game">
-              <h5 className='tooltip-header'>Welcome to the Memory Game</h5>
+              <h5 className='tooltip-header'>Welcome to The Memory Game</h5>
               <p className='tooltip-content'>Select a Theme that you would like to play with to Start.</p>
               <p className='tooltip-content'>
                 The goal is to try and remember which card you have not yet selected,<br />

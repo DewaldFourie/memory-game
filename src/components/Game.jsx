@@ -144,7 +144,7 @@ const Game = ({ theme }) => {
                             <button className="play-again-btn" onClick={handleRestartClick}>PLAY AGAIN</button>
                         </div>
                     </>
-                ) : null /* Add null here to prevent rendering duplicate game data */}
+                ) : null /* to prevent rendering duplicate game data */}
             </div>
             <div className="grid-container">
                 {isLoading ? (

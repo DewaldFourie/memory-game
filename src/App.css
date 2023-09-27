@@ -327,7 +327,7 @@ body {
 /* Media query for smaller screens (e.g., tablets) */
 @media (max-width: 1024px) {
   .card-container {
-      grid-template-columns: repeat(3, minmax(150px, 1fr)); /* Create new rows as needed */
+      grid-template-columns: repeat(3, minmax(150px, 1fr)); 
       gap: 1rem;
     }
 
@@ -341,7 +341,7 @@ body {
 /* Media query for mobile screens */
 @media (max-width: 768px) {
   .card-container {
-      grid-template-columns: repeat(3, 1fr); /* Two columns on mobile screens */
+      grid-template-columns: repeat(3, 1fr); 
       gap: 0.5rem;
   }
 
